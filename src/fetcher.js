@@ -18,7 +18,7 @@ const getHtml = async (url) => {
     return withBrowser(async (browser) => {
         const page = await browser.newPage();
 
-        await page.goto(url);
+        await page.goto(url, {waitUntil: 'networkidle0'});
 
         const html = await page.content();
 
