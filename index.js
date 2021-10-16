@@ -11,7 +11,7 @@ app.post('/', async (req, res) => {
     const start = new Date();
 
     try {
-        const html = await getHtml(req.body.url)
+        const html = await getHtml(req.body.url, req.body.delay);
         res.send(html);
     } catch (e) {
         console.log('Error: ' + e);
