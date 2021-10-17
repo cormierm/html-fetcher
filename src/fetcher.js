@@ -20,20 +20,28 @@ const getHtml = async (url, delay) => {
     return withBrowser(async (browser) => {
 
         const page = await browser.newPage();
+        await page.setDefaultNavigationTimeout(60000);
 
-        await cookies.restore(page, generateHash(url));
+        try {
+            await cookies.restore(page, generateHash(url));
 
-        await page.goto(url, {waitUntil: 'networkidle0'});
+            await page.goto(url, {waitUntil: 'networkidle0'});
 
-        await page.waitForTimeout(delay);
+            await page.waitForTimeout(delay);
 
-        const html = await page.content();
+            const html = await page.content();
 
-        await cookies.save(page, generateHash(url));
+            await cookies.save(page, generateHash(url));
 
-        page.close();
+            page.close();
 
-        return html;
+            return html;
+        } catch(e) {
+            page.close();
+
+            throw e;
+        }
+
     });
 }
 
