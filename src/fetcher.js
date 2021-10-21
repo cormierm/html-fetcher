@@ -23,7 +23,7 @@ const getHtml = async (url, delay) => {
         await page.setDefaultNavigationTimeout(60000);
 
         try {
-            await cookies.restore(page, generateHash(url));
+            await cookies.restore(page, generateFilename(url));
 
             await page.goto(url, {waitUntil: 'networkidle0'});
 
@@ -31,7 +31,7 @@ const getHtml = async (url, delay) => {
 
             const html = await page.content();
 
-            await cookies.save(page, generateHash(url));
+            await cookies.save(page, generateFilename(url));
 
             page.close();
 
@@ -41,10 +41,9 @@ const getHtml = async (url, delay) => {
 
             throw e;
         }
-
     });
 }
 
-const generateHash = (url) => crypto.createHash('md5').update(url).digest('hex');
+const generateFilename = (url) => (new URL(url)).hostname + '-' + crypto.createHash('md5').update(url).digest('hex');
 
 module.exports = {getHtml}
