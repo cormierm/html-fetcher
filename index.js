@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended: true}));
 const port = 3000;
 
 app.post('/', async (req, res) => {
-    console.log('Fetching: ', req.body.url);
+    console.log(`[${req.ip}] Request Url: ${req.body.url}`);
     const start = new Date();
 
     try {
