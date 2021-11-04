@@ -8,8 +8,10 @@ puppeteer.use(StealthPlugin())
 puppeteer.use(AdblockerPlugin())
 
 const browser = puppeteer.launch({
-    args: ['--no-sandbox'],
     headless: false,
+    executablePath: process.platform === 'darwin'
+        ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
 });
 
 const withBrowser = async (callback) => {
