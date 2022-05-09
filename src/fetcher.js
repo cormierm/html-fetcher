@@ -10,10 +10,13 @@ const withBrowser = async (callback) => {
     return callback(await browser);
 }
 
-const getHtml = async (url, delay) => {
+const getHtml = async (url, delay, userAgent) => {
     return withBrowser(async (browser) => {
 
         const page = await browser.newPage();
+        if (userAgent) {
+            await page.setUserAgent(userAgent);
+        }
         await page.setDefaultNavigationTimeout(60000);
 
         try {

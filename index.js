@@ -7,11 +7,11 @@ app.use(express.urlencoded({extended: true}));
 const port = 3000;
 
 app.post('/', async (req, res) => {
-    console.log(`[${req.ip}] Request Url: ${req.body.url}`);
+    console.log(`[${req.ip}] Request Url: ${req.body.url} User Agent: ${req.body.user_agent}`);
     const start = new Date();
 
     try {
-        const html = await getHtml(req.body.url, req.body.delay);
+        const html = await getHtml(req.body.url, req.body.delay, req.body.user_agent);
         res.send(html);
     } catch (e) {
         console.log('Error: ' + e);
