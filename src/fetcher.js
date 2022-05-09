@@ -8,8 +8,7 @@ puppeteer.use(StealthPlugin())
 puppeteer.use(AdblockerPlugin())
 
 const browser = puppeteer.launch({
-    args: ['--no-sandbox'],
-    headless: false,
+    headless: process.argv.includes('--headless'),
 });
 
 const withBrowser = async (callback) => {
