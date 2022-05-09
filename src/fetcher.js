@@ -1,11 +1,6 @@
 const cookies = require('./cookies');
 const crypto = require('crypto');
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
-
-puppeteer.use(StealthPlugin())
-puppeteer.use(AdblockerPlugin())
+const puppeteer = require('puppeteer');
 
 const browser = puppeteer.launch({
     headless: process.argv.includes('--headless'),
