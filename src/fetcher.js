@@ -1,5 +1,4 @@
 const cookies = require('./cookies');
-const crypto = require('crypto');
 const puppeteer = require('puppeteer');
 
 const browser = puppeteer.launch({
@@ -20,7 +19,7 @@ const getHtml = async (url, delay, userAgent) => {
         await page.setDefaultNavigationTimeout(60000);
 
         try {
-            await cookies.restore(page, generateFilename(url));
+            await cookies.restore(page, url);
 
             await page.goto(url, {waitUntil: 'networkidle0'});
 
@@ -28,19 +27,15 @@ const getHtml = async (url, delay, userAgent) => {
 
             const html = await page.content();
 
-            await cookies.save(page, generateFilename(url));
+            await cookies.save(page, url);
 
             page.close();
 
             return html;
-        } catch(e) {
+        } finally {
             page.close();
-
-            throw e;
         }
     });
 }
-
-const generateFilename = (url) => (new URL(url)).hostname + '-' + crypto.createHash('md5').update(url).digest('hex');
 
 module.exports = {getHtml}
